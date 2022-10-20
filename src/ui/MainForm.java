@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class MainForm {
     private JPanel root;
+    private JButton clearBtn;
+    private JButton dijkstraBtn;
+    private JPanel mapHolder;
 
     public static void show() {
         var frame = new JFrame("JMap");
@@ -15,6 +18,9 @@ public class MainForm {
 
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(new Dimension(400, 220));
+        frame.setSize(new Dimension(600, 420));
+        frame.setResizable(false);
+
+        form.mapHolder.add(new MapPanel());
     }
 }
