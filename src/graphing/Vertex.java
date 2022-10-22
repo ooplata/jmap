@@ -5,13 +5,16 @@ import java.util.Objects;
 
 public class Vertex {
     public final ArrayList<Edge> edges;
+    public final Vertex parent;
 
     public final int x;
     public final int y;
 
-    public Vertex(int x, int y) {
+    public Vertex(Vertex parent, int x, int y) {
         this.x = x;
         this.y = y;
+        this.parent = parent;
+
         edges = new ArrayList<>();
     }
 
