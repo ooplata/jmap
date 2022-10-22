@@ -9,6 +9,13 @@ public class MainForm {
     private JButton dijkstraBtn;
     private JPanel mapHolder;
 
+    public MainForm() {
+        mapHolder.add(new MapPanel());
+
+        clearBtn.setBorder(BorderFactory.createEmptyBorder());
+        dijkstraBtn.setBorder(BorderFactory.createEmptyBorder());
+    }
+
     public static void show() {
         var frame = new JFrame("JMap");
         var form = new MainForm();
@@ -18,9 +25,7 @@ public class MainForm {
 
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(new Dimension(600, 420));
+        frame.setSize(new Dimension(600, 466));
         frame.setResizable(false);
-
-        form.mapHolder.add(new MapPanel());
     }
 }
