@@ -1,18 +1,24 @@
 package ui;
 
+import assets.Resources;
 import graphing.Edge;
 import graphing.Vertex;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MapPanel extends JPanel {
     private final ArrayList<Vertex> vertices = new ArrayList<>();
     private Vertex selected;
     private Vertex prev;
+
+    private BufferedImage bg;
 
     public MapPanel() {
         addMouseListener(new MouseAdapter() {
@@ -47,6 +53,16 @@ public class MapPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (bg == null) {
+            try {
+                bg = ImageIO.read(Resources.getResource("Background.png"));
+            } catch (IOException ignored) {
+            }
+        }
+
+        g.drawImage(bg, 0, 0, null);
+
         g.setColor(Color.RED);
 
         var graphics2D = (Graphics2D) g;
