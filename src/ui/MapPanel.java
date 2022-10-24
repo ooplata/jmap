@@ -64,6 +64,13 @@ public class MapPanel extends JPanel {
         return -1;
     }
 
+    public void resetItems() {
+        selected = null;
+        items.clear();
+
+        repaint();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

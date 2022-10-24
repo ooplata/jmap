@@ -8,12 +8,15 @@ public class MainForm {
     private JButton clearBtn;
     private JButton dijkstraBtn;
     private JPanel mapHolder;
+    private final MapPanel map;
 
     public MainForm() {
-        mapHolder.add(new MapPanel());
+        map = new MapPanel();
+        mapHolder.add(map);
 
         clearBtn.setBorder(BorderFactory.createEmptyBorder());
         dijkstraBtn.setBorder(BorderFactory.createEmptyBorder());
+        clearBtn.addActionListener(e -> map.resetItems());
     }
 
     public static void show() {
