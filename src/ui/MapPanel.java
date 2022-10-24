@@ -30,15 +30,7 @@ public class MapPanel extends JPanel {
 
     private void onClick(MouseEvent e) {
         var point = e.getPoint();
-        if (selected == null) {
-            if (items.isEmpty()) {
-                selected = addItem(null, point);
-            } else {
-                selected = itemAt(point);
-            }
-        } else {
-            selected = addItem(selected, point);
-        }
+        selected = addItem(selected, point);
 
         repaint();
     }
@@ -60,19 +52,6 @@ public class MapPanel extends JPanel {
             parent.addConnection(item);
         }
         return item;
-    }
-
-    private SolarSystemItem itemAt(Point point) {
-        int index = getItemIndexFromPoint(point);
-        if (index != -1) {
-            var item = new SolarSystemItem(index);
-            int itemIndex = items.indexOf(item);
-
-            if (itemIndex != -1) {
-                return items.get(itemIndex);
-            }
-        }
-        return null;
     }
 
     private int getItemIndexFromPoint(Point point) {
