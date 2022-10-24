@@ -24,61 +24,34 @@ public class MapPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-
-                if (selected != null) {
-                    var curr = vertexAt(x, y);
-                    if (curr == null) {
-                        addVertex(selected, x, y);
-                    } else {
-                        if (!curr.parent.equals(selected) || !selected.parent.equals(curr)) {
-                            var edge = new Edge(selected, 1);
-                            curr.edges.add(edge);
-                            System.out.println("added");
-                        }
-                    }
-
-                    selected = null;
-                } else {
-                    selected = vertexAt(x, y);
-                    if (selected == null) prev = addVertex(prev, x, y);
-                }
-
-                repaint();
+                MapPanel.this.onClick(e);
             }
         });
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    private void onClick(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
 
-        if (bg == null) {
-            try {
-                bg = ImageIO.read(Resources.getResource("Background.png"));
-            } catch (IOException ignored) {
-            }
-        }
-
-        g.drawImage(bg, 0, 0, null);
-
-        g.setColor(Color.RED);
-
-        var graphics2D = (Graphics2D) g;
-        for (var vertex : vertices) {
-            graphics2D.fillOval(vertex.x, vertex.y, 8, 8);
-            for (var v : vertex.edges) {
-                g.drawLine(v.destination().x + 4, v.destination().y + 4, vertex.x + 4, vertex.y + 4);
-            }
-        }
-
-        g.setColor(Color.BLUE);
         if (selected != null) {
-            drawSquare(g, selected.x, selected.y);
-        } else if (prev != null) {
-            drawSquare(g, prev.x, prev.y);
+            var curr = vertexAt(x, y);
+            if (curr == null) {
+                addVertex(selected, x, y);
+            } else {
+                if (!curr.parent.equals(selected) || !selected.parent.equals(curr)) {
+                    var edge = new Edge(selected, 1);
+                    curr.edges.add(edge);
+                    System.out.println("added");
+                }
+            }
+
+            selected = null;
+        } else {
+            selected = vertexAt(x, y);
+            if (selected == null) prev = addVertex(prev, x, y);
         }
+
+        repaint();
     }
 
     private Vertex vertexAt(int x, int y) {
@@ -102,6 +75,40 @@ public class MapPanel extends JPanel {
             parent.edges.add(edge);
         }
         return vertex;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        drawBackground(g);
+        g.setColor(Color.RED);
+
+        var graphics2D = (Graphics2D) g;
+        for (var vertex : vertices) {
+            graphics2D.fillOval(vertex.x, vertex.y, 8, 8);
+            for (var v : vertex.edges) {
+                g.drawLine(v.destination().x + 4, v.destination().y + 4, vertex.x + 4, vertex.y + 4);
+            }
+        }
+
+        g.setColor(Color.BLUE);
+        if (selected != null) {
+            drawSquare(g, selected.x, selected.y);
+        } else if (prev != null) {
+            drawSquare(g, prev.x, prev.y);
+        }
+    }
+
+    private void drawBackground(Graphics g) {
+        if (bg == null) {
+            try {
+                bg = ImageIO.read(Resources.getResource("Background.png"));
+            } catch (IOException ignored) {
+            }
+        }
+
+        g.drawImage(bg, 0, 0, null);
     }
 
     private void drawSquare(Graphics g, int x, int y) {
