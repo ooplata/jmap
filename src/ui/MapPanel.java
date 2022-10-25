@@ -119,7 +119,7 @@ public class MapPanel extends JPanel {
         super.paintComponent(g);
 
         drawBackground(g);
-        g.setColor(Color.RED);
+        g.setColor(Color.ORANGE);
 
         var graphics2D = (Graphics2D) g;
         for (var vertex : items) {
@@ -134,9 +134,9 @@ public class MapPanel extends JPanel {
             }
         }
 
-        g.setColor(Color.BLUE);
+        g.setColor(Color.YELLOW);
         if (selected != null) {
-            drawSquare(g, (int) selected.getBounds().getCenterX(), (int) selected.getBounds().getCenterY());
+            graphics2D.fillOval((int) selected.getBounds().getCenterX() - 2, (int) selected.getBounds().getCenterY() - 2, 12, 12);
         }
     }
 
@@ -152,6 +152,10 @@ public class MapPanel extends JPanel {
     }
 
     private void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
+        g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
+    }
+
+    private void drawThickLine(Graphics g, int x1, int y1, int x2, int y2) {
         g.drawLine(x1 + 3, y1 + 3, x2 + 3, y2 + 3);
         g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
         g.drawLine(x1 + 5, y1 + 5, x2 + 5, y2 + 5);
