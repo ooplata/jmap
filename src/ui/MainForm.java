@@ -1,5 +1,7 @@
 package ui;
 
+import ui.dialogs.SimpleMessageDialog;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,5 +34,7 @@ public class MainForm {
         frame.setVisible(true);
         frame.setSize(new Dimension(600, 466));
         frame.setResizable(false);
+
+        SimpleMessageDialog.open("¡¡¡Bienvenido a JMap!!!", "Crea el grafo desde el planeta donde quieras comenzar, después mueve el cursor creando el grafo hasta el planeta destino.");
     }
 }
