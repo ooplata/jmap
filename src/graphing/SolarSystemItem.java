@@ -22,6 +22,10 @@ public final class SolarSystemItem {
         return connections.add(item) || addedThis;
     }
 
+    public String getLabel() {
+        return SolarSystemHelper.getItemName(index);
+    }
+
     public Rectangle getBounds() {
         return SolarSystemHelper.getItemBounds(index);
     }

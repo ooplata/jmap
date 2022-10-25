@@ -11,6 +11,22 @@ public final class SolarSystemHelper {
     private static Object[] bounds;
     private static Object[] distances;
 
+    public static String getItemName(int itemIndex) {
+        return switch (itemIndex) {
+            case 0 -> "Mercurio";
+            case 1 -> "Venus";
+            case 2 -> "Tierra";
+            case 3 -> "Luna";
+            case 4 -> "Marte";
+            case 5 -> "Jupiter";
+            case 6 -> "Saturno";
+            case 7 -> "Urano";
+            case 8 -> "Neptuno";
+            case 9 -> "Plutón";
+            default -> "";
+        };
+    }
+
     public static Rectangle getItemBounds(int itemIndex) {
         if (bounds == null) getBounds();
 
