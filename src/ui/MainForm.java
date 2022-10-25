@@ -35,6 +35,6 @@ public class MainForm {
         frame.setSize(new Dimension(600, 466));
         frame.setResizable(false);
 
-        SimpleMessageDialog.open("¡¡¡Bienvenido a JMap!!!", "Crea el grafo desde el planeta donde quieras comenzar, después mueve el cursor creando el grafo hasta el planeta destino.");
+        SimpleMessageDialog.open("¡Bienvenido a JMap!", "Haz click en los planetas que quieras añadir a tu recorrido.\n\nSi quieres cambiar el planeta de origen, mantén presionado Ctrl y haz click en otro planeta de tu recorrido.\n\nSi quieres seleccionar un planeta que ya esté en tu recorrido, mantén presionado Shift mientras le haces click.");
     }
 }
