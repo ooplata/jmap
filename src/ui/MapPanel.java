@@ -4,6 +4,7 @@ import assets.Resources;
 import graphing.DijkstraHelper;
 import graphing.SolarSystemHelper;
 import graphing.SolarSystemItem;
+import ui.dialogs.SimpleMessageDialog;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,8 +32,18 @@ public class MapPanel extends JPanel {
 
     private void onClick(MouseEvent e) {
         var point = e.getPoint();
-        selected = addItem(selected, point);
 
+        if (selected == null && !items.isEmpty()) {
+            int index = getItemIndexFromPoint(point);
+            var itm = new SolarSystemItem(index);
+
+            if (!items.contains(itm)) {
+                SimpleMessageDialog.open("No se puede seleccionar este planeta", "Selecciona un planeta que ya esté seleccionado");
+                return;
+            }
+        }
+
+        selected = addItem(selected, point);
         repaint();
     }
 
@@ -66,17 +77,26 @@ public class MapPanel extends JPanel {
     }
 
     public void showResults() {
-        if (selected == null) {
+        if (items.size() < 2) {
+            SimpleMessageDialog.open("No hay suficientes destinos", "Añade más destinos antes de continuar");
+            return;
+        } else if (selected == null) {
+            SimpleMessageDialog.open("Seleccione un planeta", "Selecciona un planeta antes de continuar");
             return;
         }
 
         var start = items.get(0);
         var path = DijkstraHelper.getShortestPath(items, start, selected);
 
+        var builder = new StringBuilder();
+        builder.append("El camino más corto desde ").append(start.getLabel()).append(" hasta ").append(selected.getLabel()).append(" es:\n\n");
+
         for (var itm : path) {
-            System.out.print(itm.getLabel() + " -> ");
+            builder.append(itm.getLabel()).append(" -> ");
         }
-        System.out.println(selected.getLabel());
+
+        builder.append(selected.getLabel());
+        SimpleMessageDialog.open("Resultado", builder.toString());
     }
 
     public void resetItems() {
