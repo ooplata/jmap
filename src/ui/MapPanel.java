@@ -86,6 +86,11 @@ public class MapPanel extends JPanel {
         }
 
         var start = items.get(0);
+        if (selected == start) {
+            SimpleMessageDialog.open("Seleccione otro planeta", "Vas a comenzar desde el planeta seleccionado actualmente, selecciona un nuevo destino");
+            return;
+        }
+
         var result = DijkstraHelper.getShortestPath(items, start, selected);
 
         var builder = new StringBuilder();
