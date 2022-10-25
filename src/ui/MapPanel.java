@@ -103,7 +103,7 @@ public class MapPanel extends JPanel {
         // Remove hanging arrow after the loop
         builder.delete(builder.length() - 4, builder.length());
 
-        builder.append("\n\nDistancia recorrida en total: ").append(result.totalCost()).append("km");
+        builder.append("\n\nDistancia recorrida en total: ").append(result.totalCost()).append("x10³km");
         SimpleMessageDialog.open("Resultado", builder.toString());
     }
 
