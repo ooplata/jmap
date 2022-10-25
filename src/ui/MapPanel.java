@@ -21,7 +21,9 @@ public class MapPanel extends JPanel {
     private final ArrayList<SolarSystemItem> items = new ArrayList<>();
     private final ArrayList<SolarSystemItem> shortestPath = new ArrayList<>();
 
+    private SolarSystemItem start;
     private SolarSystemItem selected;
+
     private BufferedImage bg;
 
     public MapPanel() {
@@ -36,17 +38,32 @@ public class MapPanel extends JPanel {
     private void onClick(MouseEvent e) {
         var point = e.getPoint();
 
-        if (selected == null && !items.isEmpty()) {
+        if (!items.isEmpty()) {
             int index = getItemIndexFromPoint(point);
             var itm = new SolarSystemItem(index);
 
-            if (!items.contains(itm)) {
-                SimpleMessageDialog.open("No se puede seleccionar este planeta", "Selecciona un planeta que ya esté seleccionado.");
+            boolean hasItm = items.contains(itm);
+            if (hasItm && e.isControlDown()) {
+                start = itm;
+                SimpleMessageDialog.open("Planeta inicial actualizado", "Tu recorrido comenzará desde " + itm.getLabel() + ".");
+                return;
+            } else if (hasItm && e.isShiftDown()) {
+                selected = itm;
+                repaint();
                 return;
             }
         }
 
-        selected = addItem(selected, point);
+        var itm = addItem(selected, point);
+        if (itm == null) {
+            SimpleMessageDialog.open("Área no permitida", "Solo puedes seleccionar planetas o la luna.");
+            return;
+        }
+
+        selected = itm;
+        if (start == null) {
+            start = selected;
+        }
         repaint();
     }
 
@@ -88,8 +105,7 @@ public class MapPanel extends JPanel {
             return;
         }
 
-        var start = items.get(0);
-        if (selected == start) {
+        if (selected.equals(start)) {
             SimpleMessageDialog.open("Seleccione otro planeta", "Vas a comenzar desde el planeta seleccionado actualmente, selecciona un nuevo destino.");
             return;
         }
