@@ -14,11 +14,13 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapPanel extends JPanel {
     private final ArrayList<SolarSystemItem> items = new ArrayList<>();
-    private SolarSystemItem selected;
+    private final ArrayList<SolarSystemItem> shortestPath = new ArrayList<>();
 
+    private SolarSystemItem selected;
     private BufferedImage bg;
 
     public MapPanel() {
@@ -92,6 +94,10 @@ public class MapPanel extends JPanel {
         }
 
         var result = DijkstraHelper.getShortestPath(items, start, selected);
+        shortestPath.clear();
+        result.path().forEach(shortestPath::add);
+
+        repaint();
 
         var builder = new StringBuilder();
         builder.append("El camino más corto desde ").append(start.getLabel()).append(" hasta ").append(selected.getLabel()).append(" es:\n\n");
@@ -109,7 +115,9 @@ public class MapPanel extends JPanel {
 
     public void resetItems() {
         selected = null;
+
         items.clear();
+        shortestPath.clear();
 
         repaint();
     }
@@ -117,25 +125,18 @@ public class MapPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         drawBackground(g);
-        g.setColor(Color.ORANGE);
 
         var graphics2D = (Graphics2D) g;
-        for (var vertex : items) {
-            int centerX = (int) vertex.getBounds().getCenterX();
-            int centerY = (int) vertex.getBounds().getCenterY();
-            graphics2D.fillOval(centerX, centerY, 8, 8);
+        drawGraph(graphics2D, items);
 
-            for (var v : vertex.connections) {
-                int connCenterX = (int) v.getBounds().getCenterX();
-                int connCenterY = (int) v.getBounds().getCenterY();
-                drawLine(g, connCenterX, connCenterY, centerX, centerY);
-            }
+        if (!shortestPath.isEmpty()) {
+            drawPath(graphics2D, shortestPath);
+            shortestPath.clear();
         }
 
-        g.setColor(Color.YELLOW);
         if (selected != null) {
+            graphics2D.setColor(Color.YELLOW);
             graphics2D.fillOval((int) selected.getBounds().getCenterX() - 2, (int) selected.getBounds().getCenterY() - 2, 12, 12);
         }
     }
@@ -151,20 +152,51 @@ public class MapPanel extends JPanel {
         g.drawImage(bg, 0, 0, null);
     }
 
-    private void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
-        g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
+    private void drawGraph(Graphics2D g, List<SolarSystemItem> items) {
+        var prev = g.getColor();
+        g.setColor(Color.ORANGE);
+
+        for (var vertex : items) {
+            int centerX = (int) vertex.getBounds().getCenterX();
+            int centerY = (int) vertex.getBounds().getCenterY();
+            g.fillOval(centerX, centerY, 8, 8);
+
+            for (var v : vertex.connections) {
+                int connCenterX = (int) v.getBounds().getCenterX();
+                int connCenterY = (int) v.getBounds().getCenterY();
+                drawLine(g, connCenterX, connCenterY, centerX, centerY, 1);
+            }
+        }
+
+        g.setColor(prev);
     }
 
-    private void drawThickLine(Graphics g, int x1, int y1, int x2, int y2) {
-        g.drawLine(x1 + 3, y1 + 3, x2 + 3, y2 + 3);
-        g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
-        g.drawLine(x1 + 5, y1 + 5, x2 + 5, y2 + 5);
+    private void drawPath(Graphics2D g, List<SolarSystemItem> items) {
+        var prev = g.getColor();
+        g.setColor(Color.RED);
+
+        SolarSystemItem prevVertex = null;
+        for (var vertex : items) {
+            int centerX = (int) vertex.getBounds().getCenterX();
+            int centerY = (int) vertex.getBounds().getCenterY();
+            g.fillOval(centerX, centerY, 8, 8);
+
+            if (prevVertex != null) {
+                int connCenterX = (int) prevVertex.getBounds().getCenterX();
+                int connCenterY = (int) prevVertex.getBounds().getCenterY();
+                drawLine(g, connCenterX, connCenterY, centerX, centerY, 3);
+            }
+            prevVertex = vertex;
+        }
+
+        g.setColor(prev);
     }
 
-    private void drawSquare(Graphics g, int x, int y) {
-        g.drawLine(x, y + 8, x + 8, y + 8);
-        g.drawLine(x, y, x + 8, y);
-        g.drawLine(x, y, x, y + 8);
-        g.drawLine(x + 8, y, x + 8, y + 8);
+    private void drawLine(Graphics2D g, int x1, int y1, int x2, int y2, int thickness) {
+        var prev = g.getStroke();
+        g.setStroke(new BasicStroke(thickness));
+
+        g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
+        g.setStroke(prev);
     }
 }
