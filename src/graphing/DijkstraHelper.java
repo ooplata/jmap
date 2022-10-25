@@ -1,6 +1,5 @@
 package graphing;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -42,21 +41,5 @@ public final class DijkstraHelper {
         }
 
         return new DijkstraResult(items, distances);
-    }
-
-    public static ShortestPathResult getShortestPath(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
-        var result = getResultForGraph(graph, start);
-        var items = new ArrayList<SolarSystemItem>();
-
-        long distance = 0;
-        var curr = end;
-        while (curr != null) {
-            items.add(0, curr);
-
-            distance += result.distances().get(curr);
-            curr = result.items().get(curr);
-        }
-
-        return new ShortestPathResult(items, distance);
     }
 }

@@ -1,7 +1,8 @@
 package ui;
 
 import assets.Resources;
-import graphing.DijkstraHelper;
+import graphing.ShortestPathAlgorithm;
+import graphing.ShortestPathHelper;
 import graphing.SolarSystemHelper;
 import graphing.SolarSystemItem;
 import ui.dialogs.SimpleMessageDialog;
@@ -93,7 +94,7 @@ public class MapPanel extends JPanel {
             return;
         }
 
-        var result = DijkstraHelper.getShortestPath(items, start, selected);
+        var result = ShortestPathHelper.getShortestPath(ShortestPathAlgorithm.FLOYD_WARSHALL, items, start, selected);
         shortestPath.clear();
         result.path().forEach(shortestPath::add);
 
