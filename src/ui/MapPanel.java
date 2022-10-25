@@ -38,7 +38,7 @@ public class MapPanel extends JPanel {
             var itm = new SolarSystemItem(index);
 
             if (!items.contains(itm)) {
-                SimpleMessageDialog.open("No se puede seleccionar este planeta", "Selecciona un planeta que ya esté seleccionado");
+                SimpleMessageDialog.open("No se puede seleccionar este planeta", "Selecciona un planeta que ya esté seleccionado.");
                 return;
             }
         }
@@ -78,16 +78,16 @@ public class MapPanel extends JPanel {
 
     public void showResults() {
         if (items.size() < 2) {
-            SimpleMessageDialog.open("No hay suficientes destinos", "Añade más destinos antes de continuar");
+            SimpleMessageDialog.open("No hay suficientes destinos", "Añade más destinos antes de continuar.");
             return;
         } else if (selected == null) {
-            SimpleMessageDialog.open("Seleccione un planeta", "Selecciona un planeta antes de continuar");
+            SimpleMessageDialog.open("Seleccione un planeta", "Selecciona un planeta antes de continuar.");
             return;
         }
 
         var start = items.get(0);
         if (selected == start) {
-            SimpleMessageDialog.open("Seleccione otro planeta", "Vas a comenzar desde el planeta seleccionado actualmente, selecciona un nuevo destino");
+            SimpleMessageDialog.open("Seleccione otro planeta", "Vas a comenzar desde el planeta seleccionado actualmente, selecciona un nuevo destino.");
             return;
         }
 
