@@ -44,16 +44,19 @@ public final class DijkstraHelper {
         return new DijkstraResult(items, distances);
     }
 
-    public static Iterable<SolarSystemItem> getShortestPath(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
+    public static ShortestPathResult getShortestPath(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
         var result = getResultForGraph(graph, start);
         var items = new ArrayList<SolarSystemItem>();
 
-        var curr = result.items().get(end);
+        long distance = 0;
+        var curr = end;
         while (curr != null) {
             items.add(0, curr);
+
+            distance += result.distances().get(curr);
             curr = result.items().get(curr);
         }
 
-        return items;
+        return new ShortestPathResult(items, distance);
     }
 }

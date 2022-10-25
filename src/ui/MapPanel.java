@@ -86,16 +86,19 @@ public class MapPanel extends JPanel {
         }
 
         var start = items.get(0);
-        var path = DijkstraHelper.getShortestPath(items, start, selected);
+        var result = DijkstraHelper.getShortestPath(items, start, selected);
 
         var builder = new StringBuilder();
         builder.append("El camino más corto desde ").append(start.getLabel()).append(" hasta ").append(selected.getLabel()).append(" es:\n\n");
 
-        for (var itm : path) {
+        for (var itm : result.path()) {
             builder.append(itm.getLabel()).append(" -> ");
         }
 
-        builder.append(selected.getLabel());
+        // Remove hanging arrow after the loop
+        builder.delete(builder.length() - 4, builder.length());
+
+        builder.append("\n\nDistancia recorrida en total: ").append(result.totalCost()).append("km");
         SimpleMessageDialog.open("Resultado", builder.toString());
     }
 
