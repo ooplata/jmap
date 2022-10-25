@@ -71,7 +71,7 @@
           <component id="5af38" class="javax.swing.JTextPane" binding="msgContent">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="400" height="100"/>
+                <preferred-size width="420" height="160"/>
               </grid>
             </constraints>
             <properties>
