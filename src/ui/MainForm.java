@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainForm {
+    private final MapPanel map;
     private JPanel root;
     private JButton clearBtn;
     private JButton dijkstraBtn;
     private JPanel mapHolder;
-    private final MapPanel map;
 
     public MainForm() {
         map = new MapPanel();
@@ -16,7 +16,9 @@ public class MainForm {
 
         clearBtn.setBorder(BorderFactory.createEmptyBorder());
         dijkstraBtn.setBorder(BorderFactory.createEmptyBorder());
+
         clearBtn.addActionListener(e -> map.resetItems());
+        dijkstraBtn.addActionListener(e -> map.showResults());
     }
 
     public static void show() {

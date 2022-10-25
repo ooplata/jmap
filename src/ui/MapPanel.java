@@ -1,6 +1,7 @@
 package ui;
 
 import assets.Resources;
+import graphing.DijkstraHelper;
 import graphing.SolarSystemHelper;
 import graphing.SolarSystemItem;
 
@@ -62,6 +63,20 @@ public class MapPanel extends JPanel {
         }
 
         return -1;
+    }
+
+    public void showResults() {
+        if (selected == null) {
+            return;
+        }
+
+        var start = items.get(0);
+        var path = DijkstraHelper.getShortestPath(items, start, selected);
+
+        for (var itm : path) {
+            System.out.print(itm.getLabel() + " -> ");
+        }
+        System.out.println(selected.getLabel());
     }
 
     public void resetItems() {
