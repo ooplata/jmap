@@ -130,7 +130,7 @@ public class MapPanel extends JPanel {
             for (var v : vertex.connections) {
                 int connCenterX = (int) v.getBounds().getCenterX();
                 int connCenterY = (int) v.getBounds().getCenterY();
-                g.drawLine(connCenterX + 4, connCenterY + 4, centerX + 4, centerY + 4);
+                drawLine(g, connCenterX, connCenterY, centerX, centerY);
             }
         }
 
@@ -149,6 +149,12 @@ public class MapPanel extends JPanel {
         }
 
         g.drawImage(bg, 0, 0, null);
+    }
+
+    private void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
+        g.drawLine(x1 + 3, y1 + 3, x2 + 3, y2 + 3);
+        g.drawLine(x1 + 4, y1 + 4, x2 + 4, y2 + 4);
+        g.drawLine(x1 + 5, y1 + 5, x2 + 5, y2 + 5);
     }
 
     private void drawSquare(Graphics g, int x, int y) {
