@@ -120,6 +120,7 @@ public class MapPanel extends JPanel {
     }
 
     public void resetItems() {
+        start = null;
         selected = null;
 
         graph.reset();
