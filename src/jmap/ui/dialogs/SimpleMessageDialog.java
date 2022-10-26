@@ -1,4 +1,4 @@
-package ui.dialogs;
+package jmap.ui.dialogs;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

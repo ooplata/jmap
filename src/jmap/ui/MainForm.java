@@ -1,6 +1,6 @@
-package ui;
+package jmap.ui;
 
-import ui.dialogs.SimpleMessageDialog;
+import jmap.ui.dialogs.SimpleMessageDialog;
 
 import javax.swing.*;
 import java.awt.*;

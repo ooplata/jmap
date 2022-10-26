@@ -1,4 +1,7 @@
-package graphing;
+package jmap.graphing.paths;
+
+import jmap.graphing.Graph;
+import jmap.graphing.SolarSystemItem;
 
 public final class PathAlgorithmHelper {
     public static FloydWarshallResult getFloydWarshallResult(Graph graph) {

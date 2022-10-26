@@ -1,11 +1,11 @@
-package ui;
+package jmap.ui;
 
-import assets.Resources;
-import graphing.Graph;
-import graphing.ShortestPathHelper;
-import graphing.SolarSystemHelper;
-import graphing.SolarSystemItem;
-import ui.dialogs.SimpleMessageDialog;
+import jmap.assets.Resources;
+import jmap.graphing.Graph;
+import jmap.graphing.SolarSystemHelper;
+import jmap.graphing.SolarSystemItem;
+import jmap.graphing.paths.ShortestPathHelper;
+import jmap.ui.dialogs.SimpleMessageDialog;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

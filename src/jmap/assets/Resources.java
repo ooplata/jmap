@@ -1,4 +1,4 @@
-package assets;
+package jmap.assets;
 
 import java.io.InputStream;
 import java.net.URL;

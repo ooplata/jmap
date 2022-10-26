@@ -1,4 +1,4 @@
-package graphing;
+package jmap.graphing;
 
 import java.util.Objects;
 

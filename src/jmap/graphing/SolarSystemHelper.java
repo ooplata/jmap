@@ -1,6 +1,6 @@
-package graphing;
+package jmap.graphing;
 
-import assets.Resources;
+import jmap.assets.Resources;
 
 import java.awt.*;
 import java.io.BufferedReader;

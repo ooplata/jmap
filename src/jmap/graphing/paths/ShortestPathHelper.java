@@ -1,4 +1,7 @@
-package graphing;
+package jmap.graphing.paths;
+
+import jmap.graphing.Graph;
+import jmap.graphing.SolarSystemItem;
 
 import java.util.ArrayList;
 
