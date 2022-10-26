@@ -1,10 +1,7 @@
 package ui;
 
 import assets.Resources;
-import graphing.ShortestPathAlgorithm;
-import graphing.ShortestPathHelper;
-import graphing.SolarSystemHelper;
-import graphing.SolarSystemItem;
+import graphing.*;
 import ui.dialogs.SimpleMessageDialog;
 
 import javax.imageio.ImageIO;
@@ -18,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapPanel extends JPanel {
-    private final ArrayList<SolarSystemItem> items = new ArrayList<>();
+    private final Graph graph = new Graph();
     private final ArrayList<SolarSystemItem> shortestPath = new ArrayList<>();
 
     private SolarSystemItem start;
@@ -38,11 +35,11 @@ public class MapPanel extends JPanel {
     private void onClick(MouseEvent e) {
         var point = e.getPoint();
 
-        if (!items.isEmpty()) {
+        if (!graph.vertices.isEmpty()) {
             int index = getItemIndexFromPoint(point);
             var itm = new SolarSystemItem(index);
 
-            boolean hasItm = items.contains(itm);
+            boolean hasItm = graph.vertices.contains(itm);
             if (hasItm && e.isControlDown()) {
                 start = itm;
                 SimpleMessageDialog.open("Planeta inicial actualizado", "Tu recorrido comenzará desde " + itm.getLabel() + ".");
@@ -72,18 +69,7 @@ public class MapPanel extends JPanel {
         if (index == -1) return null;
 
         var item = new SolarSystemItem(index);
-        int listIndex = items.indexOf(item);
-
-        if (listIndex != -1) {
-            item = items.get(listIndex);
-        } else {
-            items.add(item);
-        }
-
-        if (parent != null) {
-            parent.addConnection(item);
-        }
-        return item;
+        return graph.addConnection(parent, item);
     }
 
     private int getItemIndexFromPoint(Point point) {
@@ -97,7 +83,7 @@ public class MapPanel extends JPanel {
     }
 
     public void showResults() {
-        if (items.size() < 2) {
+        if (graph.vertices.size() < 2) {
             SimpleMessageDialog.open("No hay suficientes destinos", "Añade más destinos antes de continuar.");
             return;
         } else if (selected == null) {
@@ -110,7 +96,7 @@ public class MapPanel extends JPanel {
             return;
         }
 
-        var result = ShortestPathHelper.getShortestPath(ShortestPathAlgorithm.FLOYD_WARSHALL, items, start, selected);
+        var result = ShortestPathHelper.getShortestPath(ShortestPathAlgorithm.FLOYD_WARSHALL, graph, start, selected);
         shortestPath.clear();
         result.path().forEach(shortestPath::add);
 
@@ -133,7 +119,7 @@ public class MapPanel extends JPanel {
     public void resetItems() {
         selected = null;
 
-        items.clear();
+        graph.reset();
         shortestPath.clear();
 
         repaint();
@@ -145,7 +131,7 @@ public class MapPanel extends JPanel {
         drawBackground(g);
 
         var graphics2D = (Graphics2D) g;
-        drawGraph(graphics2D, items);
+        drawGraph(graphics2D, graph.vertices);
 
         if (!shortestPath.isEmpty()) {
             drawPath(graphics2D, shortestPath);
@@ -177,12 +163,15 @@ public class MapPanel extends JPanel {
             int centerX = (int) vertex.getBounds().getCenterX();
             int centerY = (int) vertex.getBounds().getCenterY();
             g.fillOval(centerX, centerY, 8, 8);
+        }
 
-            for (var v : vertex.connections) {
-                int connCenterX = (int) v.getBounds().getCenterX();
-                int connCenterY = (int) v.getBounds().getCenterY();
-                drawLine(g, connCenterX, connCenterY, centerX, centerY, 1);
-            }
+        for (var edge : graph.edges) {
+            int startCenterX = (int) edge.start().getBounds().getCenterX();
+            int startCenterY = (int) edge.start().getBounds().getCenterY();
+            int connCenterX = (int) edge.destination().getBounds().getCenterX();
+            int connCenterY = (int) edge.destination().getBounds().getCenterY();
+
+            drawLine(g, startCenterX, startCenterY, connCenterX, connCenterY, 1);
         }
 
         g.setColor(prev);
