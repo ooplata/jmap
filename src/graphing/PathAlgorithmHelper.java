@@ -3,8 +3,8 @@ package graphing;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public final class DijkstraHelper {
-    public static DijkstraResult getResultForGraph(Iterable<SolarSystemItem> graph, SolarSystemItem start) {
+public final class PathAlgorithmHelper {
+    public static DijkstraResult getDijkstraResult(Iterable<SolarSystemItem> graph, SolarSystemItem start) {
         var distances = new HashMap<SolarSystemItem, Long>();
         var items = new HashMap<SolarSystemItem, SolarSystemItem>();
 

@@ -3,19 +3,18 @@ package graphing;
 import java.util.ArrayList;
 
 public final class ShortestPathHelper {
-    public static ShortestPathResult getShortestPath(ShortestPathAlgorithm algorithm, Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
+    public static ShortestPathResult getShortestPath(ShortestPathAlgorithm algorithm, Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem destination) {
         return switch (algorithm) {
-            case DIJKSTRA -> getShortestPathDijkstra(graph, start, end);
-            case FLOYD_WARSHALL -> getShortestPathFloydWarshall(graph, start, end);
+            case DIJKSTRA -> getShortestPathDijkstra(graph, start, destination);
+            case FLOYD_WARSHALL -> getShortestPathFloydWarshall(graph, start, destination);
         };
     }
 
-    private static ShortestPathResult getShortestPathDijkstra(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
-        var result = DijkstraHelper.getResultForGraph(graph, start);
+    public static ShortestPathResult getShortestPathFromResult(DijkstraResult result, SolarSystemItem destination) {
         var items = new ArrayList<SolarSystemItem>();
-
         long distance = 0;
-        var curr = end;
+
+        var curr = destination;
         while (curr != null) {
             items.add(0, curr);
 
@@ -26,8 +25,13 @@ public final class ShortestPathHelper {
         return new ShortestPathResult(items, distance);
     }
 
-    private static ShortestPathResult getShortestPathFloydWarshall(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem end) {
+    private static ShortestPathResult getShortestPathDijkstra(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem destination) {
+        var result = PathAlgorithmHelper.getDijkstraResult(graph, start);
+        return getShortestPathFromResult(result, destination);
+    }
+
+    private static ShortestPathResult getShortestPathFloydWarshall(Iterable<SolarSystemItem> graph, SolarSystemItem start, SolarSystemItem destination) {
         //TODO: Make this actually use the Floyd Warshall algorithm
-        return getShortestPathDijkstra(graph, start, end);
+        return getShortestPathDijkstra(graph, start, destination);
     }
 }
