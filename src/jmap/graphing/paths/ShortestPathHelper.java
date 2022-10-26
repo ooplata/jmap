@@ -27,7 +27,7 @@ public final class ShortestPathHelper {
             items.add(curr);
             cost = costs[startIndex][destIndex];
 
-            while (curr != destination) {
+            while (!curr.equals(destination)) {
                 int index = graph.vertices.indexOf(curr);
                 curr = path[index][destIndex];
 
