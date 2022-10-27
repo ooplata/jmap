@@ -21,6 +21,9 @@ public final class PathAlgorithmHelper {
 
             dist[startIndex][destIndex] = edge.cost();
             path[startIndex][destIndex] = edge.destination();
+
+            dist[destIndex][startIndex] = edge.cost();
+            path[destIndex][startIndex] = edge.start();
         }
 
         for (var vertex : graph.vertices) {
@@ -40,6 +43,6 @@ public final class PathAlgorithmHelper {
             }
         }
 
-        return new FloydWarshallResult(dist, path);
+        return new FloydWarshallResult(dist,path);
     }
 }
