@@ -43,6 +43,6 @@ public final class PathAlgorithmHelper {
             }
         }
 
-        return new FloydWarshallResult(dist,path);
+        return new FloydWarshallResult(dist, path);
     }
 }
